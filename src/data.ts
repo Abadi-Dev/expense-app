@@ -8,10 +8,27 @@ interface Data {
     type: ReportType;
   }[];
 }
-enum ReportType {
+export enum ReportType {
   INCOME = 'income',
   EXPENSE = 'expense',
 }
 export const data: Data = {
-  report: [],
+  report: [
+    {
+      id: 'id1',
+      source: 'Salary',
+      amount: 1500,
+      created_at: new Date(),
+      updated_at: new Date(),
+      type: ReportType.INCOME,
+    },
+    {
+      id: 'id2',
+      source: 'Coffe shop',
+      amount: 35,
+      created_at: new Date(),
+      updated_at: new Date(),
+      type: ReportType.EXPENSE,
+    },
+  ],
 };
