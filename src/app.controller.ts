@@ -7,7 +7,8 @@ import {
   Param,
   Body,
 } from '@nestjs/common';
-import { ReportType, data } from './data';
+import { ReportType, data, Report } from './data';
+import { v4 as uuid } from 'uuid';
 
 @Controller('/report/:type')
 export class AppController {
@@ -27,12 +28,39 @@ export class AppController {
       .find((report) => report.id === id);
   }
   @Post()
-  createReport(@Body() body: { amount: number; source: string }) {
-    return 'created!';
+  createReport(
+    @Body() { amount, source }: { amount: number; source: string },
+    @Param('type') type: string,
+  ) {
+    const reportType =
+      type === 'income' ? ReportType.INCOME : ReportType.EXPENSE;
+    const newReport: Report = {
+      id: uuid(),
+      source,
+      amount,
+      created_at: new Date(),
+      updated_at: new Date(),
+      type: reportType,
+    };
+    data.report.push(newReport);
+    return newReport;
   }
   @Put(':id')
-  putReportById(): string {
-    return 'report Updated';
+  putReportById(
+    @Param('id') id: string,
+    @Param('type') type: string,
+    @Body() body: { amount: number; source: string },
+  ) {
+    console.log(id, type);
+    type === 'income' ? ReportType.INCOME : ReportType.EXPENSE;
+    const updateReport = data.report.findIndex((report) => report.id === id);
+    console.log(updateReport);
+    if (!data.report[updateReport]) return 'report not found!';
+    data.report[updateReport] = {
+      ...data.report[updateReport],
+      ...body,
+    };
+    return data.report[updateReport];
   }
   @Delete(':id')
   deleteReportById(): string {
