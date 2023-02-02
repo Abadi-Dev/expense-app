@@ -11,7 +11,11 @@ import {
 } from '@nestjs/common';
 import { ReportType } from './data';
 import { AppService } from './app.service';
-import { CreateReportDto, UpdateReport } from './dtos/report.dto';
+import {
+  CreateReportDto,
+  ReportResponseDto,
+  UpdateReport,
+} from './dtos/report.dto';
 
 @Controller('/report/:type')
 export class AppController {
@@ -19,7 +23,7 @@ export class AppController {
   @Get()
   getAllReports(
     @Param('type', new ParseEnumPipe(ReportType)) type: string,
-  ): any[] {
+  ): ReportResponseDto[] {
     const reportType =
       type === 'income' ? ReportType.INCOME : ReportType.EXPENSE;
     return this.appService.getAllReports(reportType);

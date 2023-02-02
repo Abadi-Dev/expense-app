@@ -17,6 +17,7 @@ export enum ReportType {
   INCOME = 'income',
   EXPENSE = 'expense',
 }
+
 export const data: Data = {
   report: [
     {
