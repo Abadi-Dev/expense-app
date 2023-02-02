@@ -9,6 +9,10 @@ export interface Report {
   updated_at: Date;
   type: ReportType;
 }
+export interface UpdateReport {
+  source?: string;
+  amount?: number;
+}
 export enum ReportType {
   INCOME = 'income',
   EXPENSE = 'expense',
